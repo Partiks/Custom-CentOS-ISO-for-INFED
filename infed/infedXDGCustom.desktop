@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=infedXDGCustom
+GenericName=InfedXDG
+Exec=/home/infed-boot-primary.sh
+Terminal=false
+Type=Application
+X-GNOME-Autostart-enabled=true

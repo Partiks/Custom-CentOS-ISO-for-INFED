@@ -1,0 +1,19 @@
+dn: dc=inflibnet,dc=ac,dc=in
+objectClass: top
+objectClass: dcObject
+objectclass: organization
+o:
+dc:
+
+dn: cn=Manager,dc=inflibnet,dc=ac,dc=in
+objectClass: organizationalRole
+cn: Manager
+description: Directory Manager
+
+dn: ou=People,dc=inflibnet,dc=ac,dc=in
+objectClass: organizationalUnit
+ou: People
+
+dn: ou=Group,dc=inflibnet,dc=ac,dc=in
+objectClass: organizationalUnit
+ou: Group

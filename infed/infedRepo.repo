@@ -1,0 +1,5 @@
+[local]
+name=JP Awesome Repo
+baseurl=file:///infedFiles/ALL
+enabled=1
+gpgcheck=0

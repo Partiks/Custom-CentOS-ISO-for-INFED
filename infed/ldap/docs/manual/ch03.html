@@ -1,0 +1,57 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Chapter 3. Configuration</title><link rel="stylesheet" type="text/css" href="style.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index.html" title="LDAP Account Manager - Manual"><link rel="up" href="index.html" title="LDAP Account Manager - Manual"><link rel="prev" href="ch02s04.html" title="Migration to a new server"><link rel="next" href="ch03s02.html" title="Server profiles"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter 3. Configuration</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch02s04.html">Prev</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ch03s02.html">Next</a></td></tr></table><hr></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="a_configuration"></a>Chapter 3. Configuration</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="ch03.html#generalSettings">General settings</a></span></dt><dd><dl><dt><span class="section"><a href="ch03.html#idp67058128">Security settings</a></span></dt><dt><span class="section"><a href="ch03.html#idp67069872">Password policy</a></span></dt><dt><span class="section"><a href="ch03.html#conf_logging">Logging</a></span></dt><dt><span class="section"><a href="ch03.html#idp67077424">Additional options</a></span></dt><dt><span class="section"><a href="ch03.html#idp67082544">Change master password</a></span></dt></dl></dd><dt><span class="section"><a href="ch03s02.html">Server profiles</a></span></dt><dd><dl><dt><span class="section"><a href="ch03s02.html#idp67087728">Manage server profiles</a></span></dt><dt><span class="section"><a href="ch03s02.html#idp67100496">Editing a server profile</a></span></dt><dt><span class="section"><a href="ch03s02.html#idp67175792">Cron jobs (LAM Pro)</a></span></dt><dt><span class="section"><a href="ch03s02.html#confTypicalScenarios">Typical scenarios</a></span></dt></dl></dd></dl></div><p>After you <a class="link" href="ch02.html" title="Chapter 2. Installation">installed</a> LAM you
+    can configure it to fit your needs. The complete configuration can be done
+    inside the application. There is no need to edit configuration
+    files.</p><p>Please point you browser to the location where you installed LAM.
+    E.g. for Debian/RPM this is http://yourServer/lam. If you installed LAM
+    via the tar.bz2 then this may vary. You should see the following
+    page:</p><div class="screenshot"><div class="mediaobject"><img src="images/login.png"></div></div><p>If you see an error message then you might need to install an
+    additional PHP extension. Please follow the instructions and reload the
+    page afterwards.</p><p>Now you are ready to configure LAM. Click on the "LAM configuration"
+    link to proceed.</p><div class="screenshot"><div class="mediaobject"><img src="images/configOverview.png"></div></div><p>Here you can change LAM's general settings, setup server profiles
+    for your LDAP server(s) and configure the <a class="link" href="ch07.html" title="Chapter 7. Self service (LAM Pro)">self service</a> (LAM Pro). You should start
+    with the general settings and then setup a server profile.</p><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="generalSettings"></a>General settings</h2></div></div></div><p>After selecting "Edit general settings" you will need to enter the
+      <a class="link" href="apb.html#a_configPasswords" title="LAM configuration passwords">master configuration password</a>.
+      The default password for new installations is "lam". Now you can edit
+      the general settings.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="idp67058128"></a>Security settings</h3></div></div></div><p>Here you can set a time period after which inactive sessions are
+        automatically invalidated. The selected value represents minutes of
+        inactivity.</p><p>You may also set a list of IP addresses which are allowed to
+        access LAM. The IPs can be specified as full IP (e.g. 123.123.123.123)
+        or with the "*" wildcard (e.g. 123.123.123.*). Users which try to
+        access LAM via an untrusted IP only get blank pages. There is a
+        separate field for LAM Pro self service.</p><p><a name="sessionEncryption"></a>Session encryption will encrypt sensitive
+        data like passwords in your session files. This is only available when
+        PHP <a class="ulink" href="http://php.net/mcrypt" target="_top">MCrypt</a> is active. This
+        adds extra security but also costs performance. If you manage a large
+        directory you might want to disable this and take other actions to
+        secure your LAM server.</p><div class="screenshot"><div class="mediaobject"><img src="images/configGeneral1.png"></div></div><p><a name="conf_sslCert"></a><span class="bold"><strong>SSL certificate
+        setup:</strong></span></p><p>By default, LAM uses the CA certificates that are preinstalled
+        on your system. This will work if you connect via SSL/TLS to an LDAP
+        server that uses a certificate signed by a well-known CA. In case you
+        use your own CA (e.g. company internal CA) you can import the CA
+        certificates here.</p><p>Please note that this can affect other web applications on the
+        same server if they require different certificates. There seem to be
+        problems on Debian systems and you may also need to restart Apache. In
+        case of any problems please delete the uploaded certificates and use
+        the <a class="link" href="apbs03.html#ssl_certSystem" title="Setup SSL certificates on system level">system setup</a>.</p><p>You can either upload a DER/PEM formatted certificate file or
+        import the certificates directly from an LDAP server that is available
+        with LDAP+SSL (ldaps://). LAM will automatically override system
+        certificates if at least one certificate is uploaded/imported.</p><p>The whole certificate list can be downloaded in PEM format. You
+        can also delete single certificates from the list.</p><p>Please note that you might need to restart your webserver if you
+        do any changes to this configuration.</p><div class="screenshot"><div class="mediaobject"><img src="images/configGeneral4.png"></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="idp67069872"></a>Password policy</h3></div></div></div><p>This allows you to specify a central password policy for LAM.
+        The policy is valid for all password fields inside LAM admin
+        (excluding tree view) and LAM self service. Configuration passwords do
+        not need to follow this policy.</p><div class="screenshot"><div class="mediaobject"><img src="images/configGeneral2.png"></div></div><p>You can set the minimum password length and also the complexity
+        of the passwords.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="conf_logging"></a>Logging</h3></div></div></div><p>LAM can log events (e.g. user logins). You can use system
+        logging (syslog for Unix, event viewer for Windows) or log to a
+        separate file. Please note that LAM may log sensitive data (e.g.
+        passwords) at log level "Debug". Production systems should be set to
+        "Warning" or "Error".</p><p>The PHP error reporting is only for developers. By default LAM
+        does not show PHP notice messages in the web pages. You can select to
+        use the php.ini setting here or printing all errors and
+        notices.</p><div class="screenshot"><div class="mediaobject"><img src="images/configGeneral3.png"></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="idp67077424"></a>Additional options</h3></div></div></div><p><a name="mailEOL"></a><span class="bold"><strong>Email
+        format</strong></span></p><p>Some email servers are not standards compatible. If you receive
+        mails that look broken you can change the line endings for sent mails
+        here. Default is to use "\r\n".</p><p>At the moment, this option is only available in LAM Pro as there
+        is no mail sending in the free version. See <a class="link" href="apd.html" title="Appendix D. Setup of email (SMTP) server">here</a> for setting up your SMTP
+        server.</p><div class="screenshot"><div class="mediaobject"><img src="images/configGeneral6.png"></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="idp67082544"></a>Change master password</h3></div></div></div><p>If you would like to change the master configuration password
+        then enter a new password here.</p><div class="screenshot"><div class="mediaobject"><img src="images/configGeneral5.png"></div></div></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch02s04.html">Prev</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch03s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Migration to a new server </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Server profiles</td></tr></table></div></body></html>

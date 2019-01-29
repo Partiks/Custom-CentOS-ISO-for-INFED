@@ -1,0 +1,25 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Multi edit</title><link rel="stylesheet" type="text/css" href="style.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index.html" title="LDAP Account Manager - Manual"><link rel="up" href="ch05.html" title="Chapter 5. Tools"><link rel="prev" href="ch05s02.html" title="File upload"><link rel="next" href="ch05s04.html" title="OU editor"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Multi edit</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch05s02.html">Prev</a> </td><th width="60%" align="center">Chapter 5. Tools</th><td width="20%" align="right"> <a accesskey="n" href="ch05s04.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="idp68195408"></a>Multi edit</h2></div></div></div><p>This tool allows you to modify a large list of LDAP entries in
+      batch mode. You can add new attributes/object classes, remove attributes
+      and set attributes to a specific value.</p><p>At the beginning, you need to specify where the entries are stored
+      that should be changed. You can select an account suffix, the tree
+      suffix or enter your own DN by selecting "Other".</p><p>Next, enter an additional LDAP filter to limit the entries that
+      should be changed. E.g. use "(objectclass=inetOrgPerson)" to filter for
+      users. You may also enter e.g. "(!(objectClass=passwordSelfReset))" to
+      match all accounts that do not yet have the <a class="link" href="ch04s02.html#passwordSelfResetUser">password self reset</a>
+      feature.</p><div class="literallayout"><p><br>
+</p></div><p>Now, it is time to define the changes that should be done. The
+      following operations are possible:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Add: Adds an attribute value if not yet existing. Please do
+          not use for single-value attributes that already have a
+          value.</p></li><li class="listitem"><p>Modify: Sets an attribute to the given value. If the attribute
+          does not yet exist then it is added. If the attribute has multiple
+          values then all other values are removed.</p></li><li class="listitem"><p>Delete: Deletes the specified value from this attribute. If
+          you leave the value field blank then all attribute values are
+          removed.</p></li></ul></div><p>Please note that all actions are run as separate LDAP commands.
+      You cannot add an object class and a required attribute at the same
+      time.</p><div class="screenshot"><div class="mediaobject"><img src="images/multiEdit1.png"></div></div><p><span class="bold"><strong>Dry run</strong></span></p><p>You should always start with a dry run. It will not do any changes
+      to your LDAP directory but print out all modifications that will be
+      done. You will also be able to download the changes in LDIF format to
+      use with ldapmodify. This is useful if you want to adjust some actions
+      manually.</p><div class="screenshot"><div class="mediaobject"><img src="images/multiEdit2.png"></div></div><p><span class="bold"><strong>Apply changes</strong></span></p><p>This will run the actions against your LDAP directory. You will
+      see which accounts are edited in the progress area and also if any
+      errors occured.</p><div class="screenshot"><div class="mediaobject"><img src="images/multiEdit3.png"></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch05s02.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch05.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch05s04.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">File upload </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> OU editor</td></tr></table></div></body></html>

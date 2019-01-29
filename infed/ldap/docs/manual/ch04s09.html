@@ -1,0 +1,56 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Zarafa (LAM Pro)</title><link rel="stylesheet" type="text/css" href="style.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index.html" title="LDAP Account Manager - Manual"><link rel="up" href="ch04.html" title="Chapter 4. Managing entries in your LDAP directory"><link rel="prev" href="ch04s08.html" title="Asterisk"><link rel="next" href="ch04s10.html" title="Kolab shared folders"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Zarafa (LAM Pro)</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch04s08.html">Prev</a> </td><th width="60%" align="center">Chapter 4. Managing entries in your LDAP directory</th><td width="20%" align="right"> <a accesskey="n" href="ch04s10.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="s_zarafa"></a>Zarafa (LAM Pro)</h2></div></div></div><p>Zarafa is an OpenSource collaboration software. LAM Pro provides
+      support to manage Zarafa server entries, users and groups. It covers all
+      settings for these types including resource and quota settings.</p><p>LAM Pro is an official Zarafa Certified Integration.</p><p><span class="inlinemediaobject"><img src="images/zarafa_logo_integrations_certified_140px.png"></span></p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="idp67769536"></a>Configuration</h3></div></div></div><p>To enable Zarafa support in LAM Pro please activate the Zarafa
+        modules for the Users, Groups and Hosts account types in you server
+        profile:</p><div class="screenshot"><div class="mediaobject"><img src="images/zarafa1.png"></div></div><p><span class="bold"><strong>Attention:</strong></span> LAM Pro uses the
+        Zarafa OpenLDAP schema as default. This schema fits for OpenLDAP,
+        OpenDJ, Apache Directory server and other common LDAP servers. If you
+        run Samba 4 or Active Directory then you need to switch the schema to
+        "Active Directory" on the module settings tab:</p><div class="screenshot"><div class="mediaobject"><img src="images/zarafa9.png"></div></div><p>You can configure which parts of the Zarafa user options should
+        be enabled. E.g. if you do not want to manage quotas per user then you
+        can hide these options on the tab "Module settings".</p><div class="literallayout"><p><br>
+</p></div><p><span class="bold"><strong>"Send as" attribute:</strong></span> Here you
+        can specify how "Send as" privileges should be managed. LAM supports
+        "uid" and "dn".</p><p>If you select "uid" the LAM will store user names in the
+        zarafaSendAsPrivilege attribute. This way you are restricted to
+        specify user accounts as "Send as" allowed.</p><p>You can also set this option to "dn" and LAM will store DNs in
+        the zarafaSendAsPrivilege attribute. In this case you may specify
+        users and groups as "Send as" allowed.</p><div class="literallayout"><p><br>
+</p></div><p>Examples for your Zarafa ldap.cfg:</p><p>"Send as" attribute: <span class="bold"><strong>dn</strong></span></p><p>ldap_user_sendas_attribute_type = dn</p><div class="literallayout"><p><br>
+</p></div><p>"Send as" attribute: <span class="bold"><strong>uid</strong></span></p><p>ldap_user_sendas_attribute_type = text</p><p>ldap_user_sendas_relation_attribute = uid</p><div class="literallayout"><p><br>
+Attention: If the Active Directory schema is used then LAM will always use dn and ignore this setting.<br>
+<br>
+<br>
+</p></div><p><span class="bold"><strong>Features:</strong></span> Zarafa 7 allows to
+        enable IMAP/POP3 for each user. Please hide the option "Features" if
+        you use Zarafa 6.x.</p><div class="screenshot"><div class="mediaobject"><img src="images/zarafa2.png"></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="idp67787680"></a>Users</h4></div></div></div><p>This is an example of the user edit page with all possible
+          settings. This includes email settings, quotas and some options
+          (e.g. hide from address book). You can also set the resource type
+          and capacity for meeting rooms and equipment. The Zarafa extension
+          can be added and removed at any time for every user.</p><p>Please note that the option "Features" requires Zarafa 7.
+          Please hide this option in the LAM server profile if you run Zarafa
+          6.x.</p><div class="screenshot"><div class="mediaobject"><img src="images/zarafa3.png"></div></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="idp67791392"></a>Contacts</h4></div></div></div><p>LAM Pro can manage your Zarafa contact entries. You can set
+          the email aliases and "send as" privileges. Additionally, accounts
+          may be hidden in the address book or disabled.</p><p>Please note that you can either use the Zarafa user module or
+          Zarafa contact. LAM Pro will disable the other tab when enabling one
+          of them.</p><div class="screenshot"><div class="mediaobject"><img src="images/zarafa8.png"></div></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="idp67794960"></a>Groups</h4></div></div></div><p>This is the edit page for groups. You can enter an email
+          address and additional aliases for your groups. It is also possible
+          to specify options (e.g. hide from address book). The extension can
+          be added/removed dynamically.</p><p>Please note that the option "Send-as privileges" requires the
+          Zarafa 7.0.3 schema. Please hide this option in the LAM server
+          profile if you run Zarafa &lt; 7.0.3.</p><div class="screenshot"><div class="mediaobject"><img src="images/zarafa4.png"></div></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="idp67798784"></a>Servers</h4></div></div></div><p>The Zarafa extension for host accounts allows to set the
+          connection ports and file path. You can add/remove the extension at
+          any time.</p><p>Setting the public store option is only possible for new host
+          entries.</p><p>Please note that the proxy URL option requires the Zarafa 7.1
+          schema. Please hide this option in your LAM server profile if you
+          use an older version.</p><div class="screenshot"><div class="mediaobject"><img src="images/zarafa5.png"></div></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="idp67802816"></a>Address lists</h4></div></div></div><p>Zarafa allows to store address lists in LDAP. You need to
+          define a search base and LDAP filter for each address list. E.g.
+          entering "ou=people,dc=company,dc=com" as base and "uid=*" will
+          select all users that are stored in
+          "ou=people,dc=company,dc=com".</p><p>You can also hide your lists from the address book or
+          temporarily disable them.</p><div class="screenshot"><div class="mediaobject"><img src="images/zarafa6.png"></div></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="idp67806416"></a>Dynamic groups</h4></div></div></div><p>Zarafa allows to define dynamic groups in LDAP. You need to
+          define a search base and LDAP filter for each group. E.g. entering
+          "ou=people,dc=company,dc=com" as base and "uid=*" will select all
+          users that are stored in "ou=people,dc=company,dc=com".</p><p>Dynamic groups may have an email address and multiple email
+          alias addresses.</p><p>You can also hide your dynamic groups from the address book or
+          temporarily disable them.</p><div class="screenshot"><div class="mediaobject"><img src="images/zarafa7.png"></div></div></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch04s08.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch04.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch04s10.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Asterisk </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Kolab shared folders</td></tr></table></div></body></html>

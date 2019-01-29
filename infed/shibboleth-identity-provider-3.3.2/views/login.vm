@@ -1,0 +1,132 @@
+
+## flowExecutionUrl - the form action location
+## flowRequestContext - the Spring Web Flow RequestContext
+## flowExecutionKey - the SWF execution key (this is built into the flowExecutionUrl)
+## profileRequestContext - root of context tree
+## authenticationContext - context with authentication request information
+## authenticationErrorContext - context with login error state
+## authenticationWarningContext - context with login warning state
+## ldapResponseContext - context with LDAP state (if using native LDAP)
+## rpUIContext - the context with SP UI information from the metadata
+## extendedAuthenticationFlows - collection of "extended" AuthenticationFlowDescriptor objects
+## passwordPrincipals - contents of the shibboleth.authn.Password.PrincipalOverride bean
+## encoder - HTMLEncoder class
+## request - HttpServletRequest
+## response - HttpServletResponse
+## environment - Spring Environment object for property resolution
+## custom - arbitrary object injected by deployer
+##
+#set ($rpContext = $profileRequestContext.getSubcontext('net.shibboleth.idp.profile.context.RelyingPartyContext'))
+#set ($username = $authenticationContext.getSubcontext('net.shibboleth.idp.authn.context.UsernamePasswordContext', true).getUsername())
+#set ($passwordEnabled = false)
+#if (!$passwordPrincipals or $passwordPrincipals.isEmpty() or $authenticationContext.isAcceptable($passwordPrincipals))
+  #set ($passwordEnabled = true)
+#end
+##
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>#springMessageText("idp.title", "Web Login Service")</title>
+<link rel="stylesheet" href="$request.getContextPath()/css/main.css" type="text/css" media="all" /> 
+<link rel="stylesheet" href="$request.getContextPath()/css/font-awesome.css"> 
+ 
+<link href="//fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+</head>
+<body>
+<div class="w3-agile-banner">
+	<div class="center-container">
+		
+		<div class="header-w3l">
+			
+		</div>
+		
+		<div class="main-content-agile">
+			<div class="wthree-pro">
+			 <img  class="infedlogor" align="right" src="$request.getContextPath()#springMessage("idp.logo")" alt="#springMessageText("idp.logo.alt-text", "logo")">
+          <img class="infedlogo" src="$request.getContextPath()/images/infedlogo.png" alt="#springMessageText("idp.logo.alt-text", "logo")">
+            <img class="infedlogocenter" src="$request.getContextPath()/images/esodhsindhu.png" alt="#springMessageText("idp.logo.alt-text", "logo")">
+			 
+
+                    
+				
+			</div>
+			<div class="loginerror">
+            #parse("login-error.vm")
+            </div>
+			<div class="sub-main-w3">	
+			 #set ($serviceName = $rpUIContext.serviceName)
+            #if ($serviceName && !$rpContext.getRelyingPartyId().contains($serviceName))
+             <h2>
+                #springMessageText("idp.login.loginTo", "Login to") $encoder.encodeForHTML($serviceName)
+              </h2>
+            #end
+				<form action="$flowExecutionUrl" method="post">
+				#if ($passwordEnabled)
+				<input placeholder="#springMessageText("idp.login.username", "Username")" id="username" name="j_username" type="text" required="" value="#if($username)$encoder.encodeForHTML($username)#end">
+              
+              <input  placeholder="#springMessageText("idp.login.password", "Password")"  id="password" name="j_password" type="password" required="">
+              
+             <div class="rem-w3">
+						
+						<span class="check-w3" ><input type="checkbox" name="donotcache" value="1" id="donotcache"/>#springMessageText("idp.login.donotcache", "Don't Remember Login")</span>
+			</div>
+            #end
+					
+					 
+
+						<div class="rem-w3">
+						<span class="check-w3"><input type="checkbox"  id="_shib_idp_revokeConsent" name="_shib_idp_revokeConsent" value="true" />   #springMessageText("idp.attribute-release.revoke","  Clear prior granting  of  permission for release of your information to this service.")</span>
+						</div>
+						<div class="clear"></div>
+					  #if ($passwordEnabled)
+             
+                <button  type="submit" name="_eventId_proceed"
+                    onClick="this.childNodes[0].nodeValue='#springMessageText("idp.login.pleasewait", "Logging in, please wait...")'"
+                    >#springMessageText("idp.login.login", "Login")</button>
+             
+            #end
+
+				  #foreach ($extFlow in $extendedAuthenticationFlows)
+              #if ($authenticationContext.isAcceptable($extFlow) and $extFlow.apply(profileRequestContext))
+                
+                  <button  type="submit" name="_eventId_$extFlow.getId()">
+                    #springMessageText("idp.login.$extFlow.getId().replace('authn/','')", $extFlow.getId().replace('authn/',''))
+                  </button>
+                
+              #end
+            #end
+				</form>
+				 #if ($passwordEnabled)
+              <a href="#springMessageText("idp.url.password.reset", "#")">#springMessageText("idp.login.forgotPassword", "Forgot your password?")</a> |
+              #end
+              <a href="#springMessageText("idp.url.helpdesk", "#")">#springMessageText("idp.login.needHelp", "Need Help?")</a>
+
+				
+				<div>
+				#set ($logo = $rpUIContext.getLogo())
+            #if ($logo)
+              <img class="logo-bottom" src= "$encoder.encodeForHTMLAttribute($logo)"
+                  alt="$encoder.encodeForHTMLAttribute($serviceName)">
+            #end
+				 
+           	<div class="bottom-content">
+            #set ($desc = $rpUIContext.getServiceDescription())
+            #if ($desc)
+              $encoder.encodeForHTML($desc)
+            #end
+            </div>
+			</div>
+			</div>
+		</div>
+		
+		<div class="footer">
+			<p> #springMessageText("idp.footer", "© INFLIBNET 2017  Information and Library Network Centre, Gandhinagar, Gujarat, India.")
+			</p>
+		</div>
+		
+	</div>
+</div>
+</body>
+</html>
+
